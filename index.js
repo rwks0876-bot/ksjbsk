@@ -455,9 +455,9 @@ const developerId = 6808883615;
 
 
 const fixedChannels = [
-  { id: '-1002050709727', name: 'قناة1', inviteLink: 'https://t.me/+4xfQ3ctRiFA4NzI0' },
-  { id: '-1002602289958', name: 'قناة2', inviteLink: 'https://t.me/+HcYt6DTQCqBlZWFk' },
-  { id: '-1002481629916', name: 'قناة3', inviteLink: 'https://t.me/+oo7CRqGHnVY2MmIy' }
+  
+  
+  { id: '-1002056514578', name: 'تكنولوجيا المعلومات ⛑️', inviteLink: 'https://t.me/+K7P7A40PaOIwNGY0' }
 ];
 
 let additionalChannels = [];
